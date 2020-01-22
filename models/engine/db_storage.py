@@ -69,8 +69,8 @@ class DBStorage:
         """
         Deletes an object from objects
         """
-        if obj:
+        if obj is not None:
             self.__session.delete(obj)
 
     def close(self):
-        self.__session.remove()
+        self.__session.close()
