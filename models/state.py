@@ -24,8 +24,8 @@ class State(BaseModel, Base):
     @property
     def cities(self):
         """getter cities"""
-        a = []
+        x = []
         for value in models.storage.all(City).values():
             if value.state_id == self.id:
-                a.append(value)
-        return a
+                x.append(value)
+        return x
