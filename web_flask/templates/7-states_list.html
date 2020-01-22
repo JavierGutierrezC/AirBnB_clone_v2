@@ -5,10 +5,10 @@
     </HEAD>
     <BODY>
         <H1>States</H1>
-        <ul>
+        <UL>
           {%for x in new_dict2.values() | sort(attribute="name")%}
             <LI>{{ x.id }}: <B>{{ x.name }}</B></LI>
           {%endfor%}
-        </ul>
+        </UL>
     </BODY>
 </HTML>
