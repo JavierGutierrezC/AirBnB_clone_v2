@@ -17,14 +17,14 @@ def SQL_close(self):
 def cities_aibnb():
     """print cities ans State"""
     objetos = storage.all("State")
-    city_dict = {}
-    stat_dict = {}
+    c_dit = {}
+    s_dit = {}
     for key, values in objetos.items():
         if "State" in key:
-            stat_dict[key] = values
+            s_dit[key] = values
         if "City" in key:
-            city_dict[key] = values
-    return render_template("8-cities_by_states.html", city=city_dict, state=stat_dict)
+            c_dit[key] = values
+    return render_template("8-cities_by_states.html", city=c_dit, state=s_dit)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
