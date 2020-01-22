@@ -9,10 +9,10 @@ app = Flask(__name__)
 
 @app.route("/states_list", strict_slashes=False)
 def states_airbnb():
-    objects = storage.all(State)
+    objects = storage.all("State")
     # print(objects)
     new_dict = {}
-    for x in storage.all("State").keys():
+    for x in objects.keys():
         if "State" in x:
             # print(x)
             new_dict[x] = objects[x]
