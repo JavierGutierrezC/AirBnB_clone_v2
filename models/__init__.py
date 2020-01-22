@@ -8,12 +8,14 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-from os import getenv
+import os
 from models.engine.db_storage import DBStorage
 
-if getenv("HBNB_TYPE_STORAGE") == "db":
+HB = os.getenv('HBNB_TYPE_STORAGE')
+
+if HB == "db":
     storage = DBStorage()
     storage.reload()
 else:
     storage = FileStorage()
-storage.reload()
+    storage.reload()
