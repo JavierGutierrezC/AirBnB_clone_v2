@@ -6,7 +6,7 @@
     <BODY>
         <H1>States</H1>
         <UL>
-          {% for x in new_dict2.values() | sort(attribute='name') %}
+          {% for x in new_dict2.values()|sort(attribute='name') %}
             <LI>{{ x.id }}: <B>{{ x.name }}</B></LI>
           {% endfor %}
         </UL>
