@@ -10,11 +10,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-import shlex
-
-theClasses = {'BaseModel': BaseModel, 'User': User,
-              'Place': Place, 'State': State,
-              'City': City, 'Amenity': Amenity, 'Review': Review}
+from shlex import split
 
 
 class HBNBCommand(cmd.Cmd):
@@ -37,28 +33,42 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, line):
-        """Create from basemodel
+        """Creates a new instance of BaseModel, saves it
+        Exceptions:
+            SyntaxError: when there is no args given
+            NameError: when there is no object taht has the name
         """
-        if line is None or len(line) == 0:
+        try:
+            if not line:
+                raise SyntaxError()
+            my_list = line.split(" ")
+            obj = eval("{}()".format(my_list[0]))
+            if len(my_list) > 1:
+                a = 1
+                while a < len(my_list):
+                    arg = my_list[a]
+                    arg = arg.split("=")
+                    value = arg[1]
+                    try:
+                        if arg[1][0] == '"' and arg[1][-1] == '"':
+                            value = arg[1].replace("_", " ").replace('"', "")
+                        else:
+                            try:
+                                value = int(value)
+                            except:
+                                value = float(value)
+                    except:
+                        arg[0] = "LAURAPAULO"
+
+                    if hasattr(obj, arg[0]):
+                        setattr(obj, arg[0], value)
+                    a = a + 1
+            obj.save()
+            print("{}".format(obj.id))
+        except SyntaxError:
             print("** class name missing **")
-        else:
-            token = shlex.split(line)
-            if token[0] in theClasses and len(token) == 1:
-                newDic = eval(str(line) + "()")
-                newDic.save()
-                print(newDic.id)
-            elif token[0] in theClasses and len(token) > 1:
-                newDic = eval(str(token[0]) + "()")
-                params = dict(arg.split('=') for arg in token[1:])
-                for key, val in params.items():
-                    if '_' in val:
-                        val = val.replace('_', ' ')
-                    if hasattr(newDic, key):
-                        setattr(newDic, key, val)
-                newDic.save()
-                print(newDic.id)
-            else:
-                print("** class doesn't exist **")
+        except NameError:
+            print("** class doesn't exist **")
 
     def do_show(self, line):
         """Prints the string representation of an instance
