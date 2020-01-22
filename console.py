@@ -42,12 +42,15 @@ class HBNBCommand(cmd.Cmd):
             if not line:
                 raise SyntaxError()
             my_list = line.split(" ")
+            # print(eval(my_list[0]+"()").__dict__, " Esto fue la ")
             obj = eval("{}()".format(my_list[0]))
             if len(my_list) > 1:
                 a = 1
                 while a < len(my_list):
                     arg = my_list[a]
                     arg = arg.split("=")
+                    # print(arg)
+                    # print(arg[0])
                     value = arg[1]
                     try:
                         if arg[1][0] == '"' and arg[1][-1] == '"':
@@ -55,12 +58,15 @@ class HBNBCommand(cmd.Cmd):
                         else:
                             try:
                                 value = int(value)
+                                # print("es un entero")
                             except:
                                 value = float(value)
+                                # print("es un float")
                     except:
-                        arg[0] = "LAURAPAULO"
+                        arg[0] = "PRUEBA"
 
                     if hasattr(obj, arg[0]):
+                        # print("argumento ", arg[0], type(value))
                         setattr(obj, arg[0], value)
                     a = a + 1
             obj.save()
