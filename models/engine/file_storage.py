@@ -21,17 +21,19 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
+        """returns a dictionary
+        Return:
+            returns a dictionary of __object
         """
-        Returns a dictionary
-        """
-        my_objects = {}
-        if cls is None:
-            return(self.__objects)
+        if cls is not None:
+            a = dict()
+            for key in self.__objects:
+                clas = key.split(".")
+                if clas[0] == cls.__name__:
+                    a[key] = self.__objects[key]
+            return a
         else:
-            for key, value in self.__objects.items():
-                if type(value) is cls:
-                    my_objects[key] = value
-            return my_objects
+            return self.__objects
 
     def new(self, obj):
         """sets __object to given obj
@@ -63,14 +65,13 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """
-        Deletes an object from objects
-        """
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            if key in self.__objects:
-                del self.__objects[key]
-                self.save()
+        """Delete object"""
+        if obj is not None:
+            for key, values in self.__objects.items():
+                if obj == values:
+                    break
+            self.__objects.pop(key)
 
     def close(self):
-        self.reload()
+        """ use reload to desearialize the JSON file to objs """
+        reload()
