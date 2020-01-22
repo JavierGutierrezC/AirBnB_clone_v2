@@ -2,7 +2,7 @@
 """
 script that starts a Flask web application
 """
-from  models import storage, State
+from models import storage, State
 from flask import Flask, render_template
 app = Flask(__name__)
 
@@ -18,6 +18,7 @@ def states_airbnb():
             new_dict[x] = objects[x]
     # print(new_dict)
     return render_template('7-states_list.html', new_dict2=new_dict)
+
 
 @app.teardown_appcontext
 def SQL_close(self):
