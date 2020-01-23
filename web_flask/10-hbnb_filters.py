@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+"""
+script that starts a Flask web application
+"""
+from models import storage, State, Amenity
+from flask import Flask, render_template
+app = Flask(__name__)
+
+
+@app.teardown_appcontext
+def SQL_close(self):
+    ''' remove the current SQLAlchemy Session '''
+    storage.close()
+
+
+@app.route('/hbnb_filters', strict_slashes=False)
+def filters_aibnb():
+    """print cities ans State"""
+    objetos = storage.all("State")
+    c_dit = {}
+    s_dit = {}
+    for key, values in objetos.items():
+        if "State" in key:
+            s_dit[key] = values
+        if "City" in key:
+            c_dit[key] = values
+    otro_objeto = storage.all("Amenity")
+    a_dit ={}
+    for key2, values2 in otro_objeto.items():
+        if "Amenity" in key2:
+            a_dit[key2] = values2
+    return render_template("10-hbnb_filters.html", city=c_dit, state=s_dit, amen=a_dit)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
